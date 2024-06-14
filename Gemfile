@@ -7,6 +7,7 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 gem "sidekiq"
 gem 'redis-rails'
 gem 'pg'
+gem 'smarter_csv'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 

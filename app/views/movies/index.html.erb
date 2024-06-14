@@ -1,0 +1,15 @@
+<!-- app/views/movies/index.html.erb -->
+<h1>All Movies</h1>
+
+<%= render 'search_form' %>
+
+<div class="movies-list">
+  <% @movies.each do |movie| %>
+    <div class="movie">
+      <h2><%= movie.title %></h2>
+      <p><strong>Actor:</strong> <%= movie.actor %></p>
+      <p><strong>Description:</strong> <%= movie.description %></p>
+      <p><strong>Average Stars:</strong> <%= movie.average_stars %></p>
+    </div>
+  <% end %>
+</div>
