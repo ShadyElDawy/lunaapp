@@ -11,6 +11,9 @@ class MoviesController < ApplicationController
   private
 
   def set_movies
-    @movies = Movie.by_actor(params[:actor]).with_average_stars
+    cache_key = generate_cache_key('movies', params.slice(:actor))
+    @movies ||= Rails.cache.fetch(cache_key) do
+      Movie.sort_by_average_stars.by_actor(params[:actor])
+    end
   end
 end

@@ -1,13 +1,16 @@
 class Movie < ApplicationRecord
     has_many :reviews, dependent: :destroy
 
-    scope :with_average_stars, -> { 
-        select('movies.*, COALESCE(AVG(reviews.stars), 0) AS average_stars')
-          .left_joins(:reviews)
-          .group('movies.id')
-          .order('average_stars DESC NULLS LAST')
-      }
+    validates :title, presence: true
+    validates :year, numericality: { only_integer: true }
+    validates :actor, presence: true
+
+    scope :sort_by_average_stars, -> {
+        left_joins(:reviews)
+          .group(:id)
+          .order(Arel.sql("COALESCE(AVG(reviews.stars), 0) DESC NULLS LAST"))
+    }
     
-      scope :by_actor, ->(actor) { where("actor LIKE ?", "%#{actor}%") if actor.present? }
+    scope :by_actor, ->(actor) { where("actor LIKE ?", "%#{actor}%") if actor.present? }
 
 end

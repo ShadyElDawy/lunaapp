@@ -235,6 +235,7 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.19.0)
+    smarter_csv (1.10.3)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -295,6 +296,7 @@ DEPENDENCIES
   redis-rails
   selenium-webdriver
   sidekiq
+  smarter_csv
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
