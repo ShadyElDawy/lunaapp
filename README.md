@@ -1,11 +1,18 @@
 # MovieReviews Application
 
+## Technologies Used:
+- PostgreSQL: Database management system used for storing movie and review data.
+- Sidekiq: Background processing framework used for handling asynchronous jobs.
+- Docker: Platform used for containerizing the application and its dependencies.
+- Docker Compose: Tool used for defining and running multi-container Docker applications.
+- Redis: In-memory data structure store used for caching and improving query performance.
+
 ## Features:
 
 1. **CSV Data Import:**
    - The application supports importing movie and review data from CSV files.
    - Separate CSV importer classes (`MoviesCsvImporter` and `ReviewsCsvImporter`) handle the data import process(in case we need to import only single table).
-   - avoided using insert since it skips validations
+   - avoided using insert since it skips validations.
    - Background jobs (`MoviesCsvImportJob` and `ReviewsCsvImportJob`) are used to process CSV imports asynchronously, enhancing application responsiveness.
 
 2. **Data Models:**
