@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: lunaapp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    build:
+      context: .
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+  
+  redis:
+      image: redis:latest
+      ports:
+        - "6379:6379"
+      command: redis-server
+      volumes:
+        - 'redis:/data'
+
+  sidekiq:
+      build: .
+      command: bundle exec sidekiq
+      depends_on:
+        - db
+        - redis
+      volumes:
+        - .:/app
+      environment:
+        DATABASE_URL: postgres://root:root@db:5432/lunaapp
+        REDIS_URL: 'redis://redis:6379/1'
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bin/rails db:create && bundle exec rails db:migrate && bundle exec rails s -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: postgres://root:root@db:5432/lunaapp
+      REDIS_URL: 'redis://redis:6379/1'
+
+volumes:
+  pgdata:
+  redis:
+
