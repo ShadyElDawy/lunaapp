@@ -5,6 +5,7 @@ class Movie < ApplicationRecord
     validates :year, numericality: { only_integer: true }
     validates :actor, presence: true
 
+    ##we only need to sort by average stars, not returning stars, so we don't need to include reviews
     scope :sort_by_average_stars, -> {
         left_joins(:reviews)
           .group(:id)
